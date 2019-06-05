@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+	<meta charset="utf-8">
+	<title>Chronomètre</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<style>
+	body { background-color: #ECECEC; }
+	</style>
+</head>
+	<body onload="cacher()">
+		<script language='JavaScript'>
+		ss=0;
+		s=00;
+		m='0'+0;
+		h='0'+0;
+		j=0;
+		temps = h + ':'  + m + ':' + s
+		window.status = "Chrono " +h + ' : '  + m + ' : ' + s ;
+		function Chrono() {
+			if (m==0) {m='00'}
+			if(h==0) {h='00'}
+			if (ss<10){ss='0'+ss;}
+			if (s<10){s='0'+s;}
+			window.status = "Chrono " +h + ' : '  + m + ' : ' + s ;
+			document.formu.heure.value =h + ' : ' + m + ' : ' + s ;
+			document.formu.duree.value =h + ':' + m + ':' + s ;
+			s++;
+			ss++;
+			if (h==24){h='0'+0;j++;}
+			if (s==60){s=0;s=0; m++;if(m<10){m='0'+m;}}
+			if (m==60){m='0'+0;h++;if(h<10){h='0'+h;}}
+			chrono=window.setTimeout("Chrono();",1000);
+		}
+		</script>
+		<script>
+		function afficher()
+		{
+			document.getElementById("start").style.visibility = "hidden";
+			document.getElementById("pause").style.visibility = "visible";
+		}
+		function cacher()
+		{
+			document.getElementById("start").style.visibility = "visible";
+			document.getElementById("pause").style.visibility = "hidden";
+		}
+		</script>
+		<br>
+		<form action="traitement/ajout.php" method="post" name="formu" id="formu">
+			<div class="container d-flex justify-content-center">
+				<div class="col-6 shadow p-3 mb-5 bg-white rounded">
+				<h4 class="text-center">Chronomètre</h4>
+				<h6 class="text-center">By @LucasDavion</h6>
+				<hr>
+				<input style="font-size:2em" class="form-control text-center font-weight-bold" type="text" id="heure" value="00 : 00 : 00" readonly>
+				<input type='hidden' name='duree'>
+				<input type='hidden' name='type' value='a'>
+				<br>
+				<div class="d-flex justify-content-center">
+					<div class="col-12 d-flex justify-content-around">
+						<div class="col">
+							<input class="btn btn-success btn-block" type="button" name="Submit" value="Lancer" id="start" onClick="Chrono(); afficher();">
+						</div>
+						<div class="col">
+							<input class="btn btn-info btn-block" type="button" name="Submit2" value="Pause" id="pause" onClick="window.clearTimeout(chrono);cacher();">
+						</div>
+						<div class="col">
+							<input class="btn btn-danger btn-block" type="button" name="Submit3" value="Réinitialiser"onClick="if (confirm('Souhaitez vous mettre le compteur à zéro?')){s=0;m=0;j=0;h=0;ss=0; window.status = 'Chrono 00 : 00 : 00' ; document.formu.heure.value ='00 : 00 : 00';}">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
